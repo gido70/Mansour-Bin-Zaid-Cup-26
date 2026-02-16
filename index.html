@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>بطولة كأس منصور بن زايد 2026</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#101a30;
+      --text:#e9eefc;
+      --muted:#a9b7df;
+      --accent:#f6c445;
+      --line:rgba(255,255,255,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background: linear-gradient(180deg, #071022 0%, #0b1220 50%, #071022 100%);
+      color:var(--text);
+    }
+    a{color:inherit}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,16,34,.78);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; min-width:240px;
+    }
+    .brand img{height:42px; width:auto; border-radius:8px}
+    .brand .title{line-height:1.15}
+    .brand .title b{display:block; font-size:15px}
+    .brand .title span{display:block; font-size:12px; color:var(--muted)}
+    nav{display:flex; gap:6px; flex-wrap:wrap}
+    .tab{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .tab.active{
+      border-color: rgba(246,196,69,.55);
+      background: rgba(246,196,69,.12);
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:18px 14px 42px}
+    .hero{
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      background: #0b1630;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    }
+    .hero-img{
+      position:relative;
+      height:280px;
+      background: url("./assets/banner.jpg") center/cover no-repeat;
+    }
+    .hero-img::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(7,16,34,.92) 0%, rgba(7,16,34,.50) 55%, rgba(7,16,34,.92) 100%);
+    }
+    .hero-content{
+      position:absolute; inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 18px;
+      gap:12px;
+    }
+    .hero-left, .hero-right{display:flex; align-items:center; gap:12px}
+    .hero-left img, .hero-right img{
+      height:78px; width:auto;
+      filter: drop-shadow(0 12px 30px rgba(0,0,0,.45));
+      border-radius:12px;
+    }
+    .hero-center{
+      text-align:center;
+      padding:0 10px;
+      flex:1;
+    }
+    .hero-center h1{margin:0; font-size:36px}
+    .hero-center p{margin:8px 0 0; color:var(--muted)}
+    .grid{display:grid; grid-template-columns: repeat(12,1fr); gap:12px; margin-top:14px}
+    .card{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius:16px;
+      padding:14px;
+    }
+    .card h2{margin:0 0 10px; font-size:18px}
+    .muted{color:var(--muted)}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(246,196,69,.55);
+      background: rgba(246,196,69,.12);
+      padding:10px 12px;
+      border-radius:12px;
+      text-decoration:none;
+      font-size:13px;
+    }
+    .btn.secondary{
+      border-color: var(--line);
+      background: rgba(255,255,255,.04);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+    }
+    th, td{
+      padding:10px 10px;
+      border-bottom:1px solid var(--line);
+      text-align:right;
+      font-size:13px;
+      vertical-align:top;
+    }
+    th{color:#dfe7ff; background: rgba(255,255,255,.05)}
+    tr:last-child td{border-bottom:none}
+    .pill{
+      display:inline-block;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .split{display:flex; gap:10px; flex-wrap:wrap}
+    .search{
+      width:100%;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:12px;
+      outline:none;
+      font-size:13px;
+    }
+    .notice{
+      border:1px dashed rgba(246,196,69,.55);
+      background: rgba(246,196,69,.08);
+      padding:10px 12px;
+      border-radius:14px;
+      color: #ffe7a6;
+      font-size:13px;
+    }
+    .hidden{display:none}
+    @media (max-width: 820px){
+      .hero-img{height:320px}
+      .hero-content{flex-direction:column; justify-content:center}
+      .hero-left,.hero-right{order:2}
+      .hero-center{order:1}
+      .hero-center h1{font-size:28px}
+      .brand{min-width:auto}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img src="./assets/trophy_logo.jpg" alt="شعار البطولة">
+        <div class="title">
+          <b>كأس منصور بن زايد</b>
+          <span>بطولة 2026 • نسخة تجريبية للعرض</span>
+        </div>
+      </div>
+
+      <nav id="nav">
+        <button class="tab active" data-page="home">الرئيسية</button>
+        <button class="tab" data-page="groups">المجموعات</button>
+        <button class="tab" data-page="matches">المباريات</button>
+        <button class="tab" data-page="teams">الفرق</button>
+        <button class="tab" data-page="players">اللاعبين</button>
+        <button class="tab" data-page="downloads">تحميل الملفات</button>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- HOME -->
+    <section id="page-home">
+      <div class="hero">
+        <div class="hero-img">
+          <div class="hero-content">
+            <div class="hero-left">
+              <img src="./assets/committee_logo.jpg" alt="شعار اللجنة">
+            </div>
+            <div class="hero-center">
+              <h1>بطولة كأس منصور بن زايد 2026</h1>
+              <p>واجهة عرض وإدارة بيانات الفرق واللاعبين والمباريات (ملفات محلية داخل GitHub)</p>
+            </div>
+            <div class="hero-right">
+              <img src="./assets/trophy_logo.jpg" alt="شعار البطولة">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card" style="grid-column: span 6;">
+          <h2>حالة البيانات</h2>
+          <div id="status" class="notice">جاري تحميل البيانات…</div>
+          <p class="muted" style="margin:10px 0 0">هذه النسخة لا تعتمد على Google Sheets؛ كل البيانات داخل المستودع (CSV/JSON + ملفات Excel للتنزيل).</p>
+        </div>
+
+        <div class="card" style="grid-column: span 6;">
+          <h2>تنزيل سريع</h2>
+          <div class="split">
+            <a class="btn" href="./downloads/عدد 16 فريق جاهزة لطباعة البطاقات.xlsx" download>ملف الفرق واللاعبين (Excel)</a>
+            <a class="btn" href="./downloads/جدول مباريات دوري ال16.xlsx" download>جدول المباريات (Excel)</a>
+            <a class="btn secondary" href="./data/teams.json" download>teams.json</a>
+            <a class="btn secondary" href="./data/matches.json" download>matches.json</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GROUPS -->
+    <section id="page-groups" class="hidden">
+      <div class="card">
+        <h2>المجموعات</h2>
+        <div id="groupsContent" class="muted">جاري التحميل…</div>
+      </div>
+    </section>
+
+    <!-- MATCHES -->
+    <section id="page-matches" class="hidden">
+      <div class="card">
+        <h2>المباريات</h2>
+        <input id="matchSearch" class="search" placeholder="ابحث باسم فريق أو رقم مباراة أو مجموعة (A/B/C/D)…" />
+        <div style="height:10px"></div>
+        <div id="matchesContent" class="muted">جاري التحميل…</div>
+      </div>
+    </section>
+
+    <!-- TEAMS -->
+    <section id="page-teams" class="hidden">
+      <div class="card">
+        <h2>الفرق</h2>
+        <input id="teamSearch" class="search" placeholder="ابحث باسم فريق…" />
+        <div style="height:10px"></div>
+        <div id="teamsContent" class="muted">جاري التحميل…</div>
+      </div>
+    </section>
+
+    <!-- PLAYERS -->
+    <section id="page-players" class="hidden">
+      <div class="card">
+        <h2>اللاعبين</h2>
+        <input id="playerSearch" class="search" placeholder="ابحث باسم لاعب أو فريق أو جنسية…" />
+        <div style="height:10px"></div>
+        <div id="playersContent" class="muted">جاري التحميل…</div>
+      </div>
+    </section>
+
+    <!-- DOWNLOADS -->
+    <section id="page-downloads" class="hidden">
+      <div class="card">
+        <h2>تحميل الملفات</h2>
+        <p class="muted">روابط مباشرة داخل GitHub Pages. إذا لم يبدأ التنزيل: اضغط بزر الفأرة الأيمن ثم Save link as.</p>
+        <div class="split">
+          <a class="btn" href="./downloads/عدد 16 فريق جاهزة لطباعة البطاقات.xlsx" download>تنزيل ملف الفرق واللاعبين</a>
+          <a class="btn" href="./downloads/جدول مباريات دوري ال16.xlsx" download>تنزيل ملف المباريات</a>
+          <a class="btn secondary" href="./data/players.json" download>players.json</a>
+          <a class="btn secondary" href="./data/teams.json" download>teams.json</a>
+          <a class="btn secondary" href="./data/matches.json" download>matches.json</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="card" style="margin-top:14px; text-align:center">
+      <span class="muted">© 2026 جميع الحقوق محفوظة • كأس منصور بن زايد</span>
+    </div>
+  </div>
+
+<script>
+  const state = { teams: [], players: [], matches: [] };
+
+  function setActive(page){
+    document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.page === page));
+    document.querySelectorAll("section[id^='page-']").forEach(s => s.classList.add("hidden"));
+    document.getElementById("page-" + page).classList.remove("hidden");
+  }
+
+  document.getElementById("nav").addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab");
+    if(!btn) return;
+    setActive(btn.dataset.page);
+  });
+
+  async function loadData(){
+    try{
+      const [teams, players, matches] = await Promise.all([
+        fetch("./data/teams.json").then(r => r.json()),
+        fetch("./data/players.json").then(r => r.json()),
+        fetch("./data/matches.json").then(r => r.json()),
+      ]);
+      state.teams = teams;
+      state.players = players;
+      state.matches = matches;
+
+      document.getElementById("status").textContent = `تم التحميل بنجاح: ${teams.length} فريق • ${players.length} لاعب/إداري • ${matches.length} مباراة`;
+      renderGroups();
+      renderMatches();
+      renderTeams();
+      renderPlayers();
+      bindSearch();
+    }catch(err){
+      console.error(err);
+      document.getElementById("status").textContent = "فشل تحميل البيانات. تأكد أنك فتحت الموقع من رابط GitHub Pages وليس من file:// على الجهاز.";
+    }
+  }
+
+  function groupBy(arr, keyFn){
+    const m = new Map();
+    for(const x of arr){
+      const k = keyFn(x);
+      if(!m.has(k)) m.set(k, []);
+      m.get(k).push(x);
+    }
+    return m;
+  }
+
+  function renderGroups(){
+    const byGroup = groupBy(state.teams, t => t.group || "غير محدد");
+    const groups = Array.from(byGroup.keys()).sort();
+    let html = "";
+    for(const g of groups){
+      const teams = byGroup.get(g).sort((a,b)=>a.name.localeCompare(b.name,"ar"));
+      html += `<div class="card" style="margin:10px 0; background: rgba(255,255,255,.03)">`
+            + `<div style="display:flex; align-items:center; justify-content:space-between; gap:10px">`
+            + `<h3 style="margin:0">المجموعة ${g}</h3>`
+            + `<span class="pill">${teams.length} فرق</span>`
+            + `</div>`
+            + `<div style="margin-top:10px" class="split">`
+            + teams.map(t => `<span class="pill">${t.name}</span>`).join("")
+            + `</div></div>`;
+    }
+    document.getElementById("groupsContent").innerHTML = html || "<div class='muted'>لا توجد بيانات مجموعات.</div>";
+  }
+
+  function renderMatches(filterText=""){
+    const q = filterText.trim().toLowerCase();
+    const rows = state.matches
+      .filter(m => !q || (String(m.match_no).includes(q) || (m.group||"").toLowerCase().includes(q) || (m.team1||"").toLowerCase().includes(q) || (m.team2||"").toLowerCase().includes(q)))
+      .sort((a,b)=>a.match_no-b.match_no);
+
+    let html = `<table><thead><tr>
+      <th>رقم</th><th>اليوم</th><th>التاريخ</th><th>الوقت</th><th>المجموعة</th><th>الفريق 1</th><th>الفريق 2</th>
+    </tr></thead><tbody>`;
+    for(const m of rows){
+      html += `<tr>
+        <td>${m.match_no}</td>
+        <td>${m.day||""}</td>
+        <td>${m.date||""}</td>
+        <td>${m.time||""}</td>
+        <td>${m.group||""}</td>
+        <td>${m.team1||""}</td>
+        <td>${m.team2||""}</td>
+      </tr>`;
+    }
+    html += `</tbody></table>`;
+    document.getElementById("matchesContent").innerHTML = rows.length ? html : "<div class='muted'>لا توجد مباريات مطابقة.</div>";
+  }
+
+  function renderTeams(filterText=""){
+    const q = filterText.trim().toLowerCase();
+    const teams = state.teams
+      .filter(t => !q || (t.name||"").toLowerCase().includes(q))
+      .sort((a,b)=> (a.group||"").localeCompare(b.group||"") || a.name.localeCompare(b.name,"ar"));
+
+    let html = `<table><thead><tr>
+      <th>المعرف</th><th>الفريق</th><th>المجموعة</th><th>عدد الأفراد</th>
+    </tr></thead><tbody>`;
+    for(const t of teams){
+      const count = state.players.filter(p => p.team === t.name).length;
+      html += `<tr>
+        <td>${t.id}</td>
+        <td>${t.name}</td>
+        <td>${t.group||""}</td>
+        <td>${count}</td>
+      </tr>`;
+    }
+    html += `</tbody></table>`;
+    document.getElementById("teamsContent").innerHTML = teams.length ? html : "<div class='muted'>لا توجد فرق مطابقة.</div>";
+  }
+
+  function renderPlayers(filterText=""){
+    const q = filterText.trim().toLowerCase();
+    const players = state.players.filter(p => {
+      if(!q) return true;
+      return (p.name||"").toLowerCase().includes(q)
+        || (p.team||"").toLowerCase().includes(q)
+        || (p.nationality||"").toLowerCase().includes(q);
+    });
+
+    let html = `<table><thead><tr>
+      <th>الفريق</th><th>الاسم</th><th>الصفة</th><th>الجنسية</th><th>الرقم</th>
+    </tr></thead><tbody>`;
+    for(const p of players){
+      html += `<tr>
+        <td>${p.team||""}</td>
+        <td>${p.name||""}</td>
+        <td>${p.role||""}</td>
+        <td>${p.nationality||""}</td>
+        <td>${p.number||""}</td>
+      </tr>`;
+    }
+    html += `</tbody></table>`;
+    document.getElementById("playersContent").innerHTML = players.length ? html : "<div class='muted'>لا توجد نتائج.</div>";
+  }
+
+  function bindSearch(){
+    const teamSearch = document.getElementById("teamSearch");
+    const playerSearch = document.getElementById("playerSearch");
+    const matchSearch = document.getElementById("matchSearch");
+
+    teamSearch.addEventListener("input", () => renderTeams(teamSearch.value));
+    playerSearch.addEventListener("input", () => renderPlayers(playerSearch.value));
+    matchSearch.addEventListener("input", () => renderMatches(matchSearch.value));
+  }
+
+  loadData();
+</script>
+</body>
+</html>
