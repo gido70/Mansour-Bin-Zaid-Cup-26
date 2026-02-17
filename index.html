@@ -1,176 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كأس منصور بن زايد 2026</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { font-family: sans-serif; }
+.page-section { display: none; }
+.page-section.active { display: block; }
+.active-tab { border-bottom: 3px solid #f6c34a; color: #0d3aa3; }
+</style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<header class="bg-white shadow sticky top-0">
+<div class="container mx-auto p-4 text-center">
+<h1 class="text-2xl font-bold text-blue-800">كأس منصور بن زايد</h1>
+<p class="text-gray-600">بطولة 2026</p>
+
+<nav class="mt-4 flex justify-center gap-4">
+<button class="active-tab" data-page="home">الرئيسية</button>
+<button data-page="teams">الفرق</button>
+<button data-page="players">اللاعبين</button>
+<button data-page="matches">المباريات</button>
+</nav>
+</div>
+</header>
+
+<main class="container mx-auto p-6">
+
+<section id="home-page" class="page-section active">
+<div class="bg-blue-900 text-white p-8 rounded-xl text-center">
+<h2 class="text-3xl font-bold">بطولة كأس منصور بن زايد 2026</h2>
+</div>
+</section>
+
+<section id="teams-page" class="page-section">
+<h2 class="text-2xl font-bold mb-4">الفرق</h2>
+<div id="teams-container"></div>
+</section>
+
+<section id="players-page" class="page-section">
+<h2 class="text-2xl font-bold mb-4">اللاعبين</h2>
+<div id="players-container"></div>
+</section>
+
+<section id="matches-page" class="page-section">
+<h2 class="text-2xl font-bold mb-4">المباريات</h2>
+<div id="matches-container"></div>
+</section>
+
+</main>
+
 <script>
-  // ✅ ضع هنا Published ID الصحيح من رابط Google Sheets (pubhtml)
-  const SHEET_PUB_ID = "2PACX-1vRpxvg9aczrDgqw9lKm-Axq_IHzRHrB5YGYk4xZvJZBktRE5T_VOWpdu4ds-pRhsA";
 
-  // ✅ إعدادات الصفحات (CSV)
-  const SHEETS_CONFIG = {
-    teams:   { gid: "624074873",  nameCol: 0 },  // اسم الفريق (عمود A)
-    players: { gid: "374566661",  nameCol: 0, teamCol: 1 }, // اسم اللاعب A / الفريق B
-    matches: { gid: "140432292",  nameCol: 0 },
-    groups:  { gid: "77308583",   nameCol: 0 },
-    news:    { gid: "1073137346", nameCol: 0 }
-  };
+const SHEET_ID = "2PACX-1vTxlAw9iO9hZu5eCbnxohA2Efxgf-a-a8l-xidzs_8ShFVcF5Z8Hb5wJRqJxV564ELWiXskpfyNkveP";
 
-  // CSV parser بسيط يدعم الفواصل داخل علامات اقتباس
-  function parseCSV(text) {
-    const rows = [];
-    let row = [], cur = "", inQuotes = false;
+const SHEETS = {
+  teams:   { gid: "624074873" },
+  players: { gid: "374566661" },
+  matches: { gid: "140432292" }
+};
 
-    for (let i = 0; i < text.length; i++) {
-      const ch = text[i], next = text[i+1];
+function parseGViz(text){
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  return JSON.parse(text.substring(start, end+1));
+}
 
-      if (ch === '"' && next === '"') { cur += '"'; i++; continue; }
-      if (ch === '"') { inQuotes = !inQuotes; continue; }
+async function loadData(page){
+  const config = SHEETS[page];
+  const container = document.getElementById(page + "-container");
+  if(!config || !container) return;
 
-      if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
-      if (!inQuotes && (ch === "\n" || ch === "\r")) {
-        if (ch === "\r" && next === "\n") i++;
-        row.push(cur);
-        if (row.some(cell => cell.trim() !== "")) rows.push(row);
-        row = []; cur = "";
-        continue;
-      }
-      cur += ch;
-    }
-    row.push(cur);
-    if (row.some(cell => cell.trim() !== "")) rows.push(row);
-    return rows;
-  }
+  container.innerHTML = "جاري التحميل...";
 
-  function escapeHtml(str) {
-    return String(str ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
+  const url = `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/gviz/tq?gid=${config.gid}&tqx=out:json`;
 
-  // ✅ فلترة لاعبي صفحة اللاعبين حسب الفريق
-  let selectedTeam = ""; // اسم الفريق المختار
+  try{
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = parseGViz(text);
 
-  window.selectTeam = function(teamName){
-    selectedTeam = (teamName || "").trim();
-    showPage("players");
-  };
+    const rows = json.table.rows || [];
+    container.innerHTML = "";
 
-  function applyPlayersFilter() {
-    const bar = document.getElementById("players-filter-bar");
-    const teamSpan = document.getElementById("players-filter-team");
-    const container = document.getElementById("players-container");
-    if (!container) return;
-
-    const cards = Array.from(container.querySelectorAll("[data-player-card]"));
-
-    if (selectedTeam) {
-      if (bar) bar.classList.remove("hidden");
-      if (teamSpan) teamSpan.textContent = selectedTeam;
-    } else {
-      if (bar) bar.classList.add("hidden");
-    }
-
-    cards.forEach(card => {
-      const team = (card.dataset.team || "").trim();
-      card.style.display = (!selectedTeam || team === selectedTeam) ? "" : "none";
-    });
-  }
-
-  document.addEventListener("click", (e) => {
-    const clearBtn = e.target.closest("#players-filter-clear");
-    if (clearBtn) {
-      selectedTeam = "";
-      showPage("players");
-    }
-  });
-
-  async function loadPageData(pageId) {
-    const cfg = SHEETS_CONFIG[pageId];
-    const container = document.getElementById(`${pageId}-container`);
-    if (!cfg || !container) return;
-
-    container.innerHTML = `
-      <div class="col-span-full text-center py-10 text-gray-600">
-        <i class="fas fa-circle-notch fa-spin text-2xl mb-3"></i>
-        <div>جاري التحميل...</div>
-      </div>
-    `;
-
-    try {
-      const url = `https://docs.google.com/spreadsheets/d/e/${SHEET_PUB_ID}/pub?gid=${cfg.gid}&single=true&output=csv&cachebust=${Date.now()}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("HTTP " + res.status);
-
-      const csv = await res.text();
-      const table = parseCSV(csv);
-      const rows = table.slice(1); // تجاهل الهيدر
-
-      container.innerHTML = "";
-      let count = 0;
-
-      for (const r of rows) {
-        const name = (r[cfg.nameCol] || "").trim();
-        if (!name) continue;
-        count++;
-
-        if (pageId === "teams") {
-          const safeName = escapeHtml(name);
-          container.insertAdjacentHTML("beforeend", `
-            <button type="button"
-              onclick="selectTeam('${safeName.replace(/&#39;/g, "\\'")}')"
-              class="bg-white rounded-xl shadow p-4 text-center hover:shadow-lg transition-shadow cursor-pointer">
-              <div class="text-lg font-bold text-blue-800">${safeName}</div>
-            </button>
-          `);
-          continue;
-        }
-
-        if (pageId === "players") {
-          const team = (r[cfg.teamCol] || "").trim();
-          container.insertAdjacentHTML("beforeend", `
-            <div data-player-card="1" data-team="${escapeHtml(team)}"
-              class="bg-white rounded-xl shadow p-4 text-center hover:shadow-lg transition-shadow">
-              <div class="text-lg font-bold text-blue-800">${escapeHtml(name)}</div>
-              ${team ? `<div class="text-sm text-gray-600 mt-1">${escapeHtml(team)}</div>` : ``}
-            </div>
-          `);
-          continue;
-        }
-
-        container.insertAdjacentHTML("beforeend", `
-          <div class="bg-white rounded-xl shadow p-4 text-center hover:shadow-lg transition-shadow">
-            <div class="text-lg font-bold text-blue-800">${escapeHtml(name)}</div>
-          </div>
-        `);
-      }
-
-      if (count === 0) {
-        container.innerHTML = `<div class="col-span-full text-center py-10 text-gray-600">لا توجد بيانات لعرضها</div>`;
-      }
-
-      if (pageId === "players") applyPlayersFilter();
-
-    } catch (e) {
-      console.error(e);
-      container.innerHTML = `<div class="col-span-full text-center py-10 text-red-600">فشل تحميل البيانات (تأكد أن الشيت منشور للويب)</div>`;
-    }
-  }
-
-  function showPage(pageId) {
-    document.querySelectorAll(".page-section").forEach(s => s.classList.remove("active"));
-    const target = document.getElementById(`${pageId}-page`);
-    if (target) target.classList.add("active");
-
-    document.querySelectorAll('nav button[data-page]').forEach(btn => {
-      btn.classList.remove("active-tab");
-      if (btn.dataset.page === pageId) btn.classList.add("active-tab");
+    rows.forEach(r=>{
+      const val = r.c[0]?.v || "";
+      if(!val) return;
+      container.innerHTML += `
+        <div class="bg-white p-4 rounded shadow mb-2 text-blue-800 font-bold">
+          ${val}
+        </div>
+      `;
     });
 
-    if (SHEETS_CONFIG[pageId]) loadPageData(pageId);
+  }catch(e){
+    container.innerHTML = "فشل تحميل البيانات";
+    console.error(e);
   }
+}
 
-  document.querySelectorAll('nav button[data-page]').forEach(btn => {
-    btn.addEventListener("click", () => showPage(btn.dataset.page));
-  });
+function showPage(page){
+  document.querySelectorAll(".page-section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(page+"-page").classList.add("active");
 
-  document.addEventListener("DOMContentLoaded", () => showPage("home"));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active-tab"));
+  document.querySelector(`[data-page="${page}"]`).classList.add("active-tab");
+
+  if(SHEETS[page]) loadData(page);
+}
+
+document.querySelectorAll("nav button").forEach(btn=>{
+  btn.addEventListener("click", ()=> showPage(btn.dataset.page));
+});
+
 </script>
+
+</body>
+</html>
