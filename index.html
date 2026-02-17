@@ -1,127 +1,14 @@
-<!DOCTYPE html>
-
-<html dir="rtl" lang="ar">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>بطولة كأس منصور بن زايد 2026</title>
-<meta content="البطولة العربية لكرة القدم - كأس منصور بن زايد 2026" name="description"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap');
-    :root{
-      --primary:#0b2a6f;
-      --primary-2:#0d3aa3;
-      --accent:#f6c34a;
-      --ink:#0b1220;
-      --muted:#6b7280;
-      --bg:#f7f9fc;
-    }
-    * { font-family: 'Tajawal', sans-serif; }
-    body{ background: var(--bg); color: var(--ink); }
-    .active-tab{ border-bottom:3px solid var(--accent); color:var(--primary-2); }
-    .page-section{ display:none; }
-    .page-section.active{ display:block; }
-    .hero-bg{
-      background-image:
-        radial-gradient(1200px 600px at 80% 30%, rgba(246,195,74,.35), transparent 60%),
-        linear-gradient(135deg, rgba(11,42,111,.92), rgba(9,24,66,.88));
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-  </style>
-</head>
-<body class="min-h-screen">
-<header class="bg-white shadow-lg sticky top-0 z-50">
-<div class="container mx-auto px-4 py-3">
-<div class="flex items-center justify-between">
-<div class="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
-<i class="fas fa-users text-white text-2xl"></i>
-</div>
-<div class="text-center">
-<h1 class="text-2xl font-bold text-blue-800">كأس منصور بن زايد</h1>
-<p class="text-gray-600">بطولة 2026</p>
-<div class="mt-2 text-sm inline-flex items-center gap-2 px-3 py-1 rounded-full" style="background: rgba(246,195,74,.18); border: 1px solid rgba(246,195,74,.35); color:#7a4b00;">
-<i class="fas fa-star"></i>
-<span>نسخة تجريبية للعرض – جاهزة لربط الشيت</span>
-</div>
-</div>
-<div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center">
-<i class="fas fa-trophy text-white text-2xl"></i>
-</div>
-</div>
-<nav class="mt-4">
-<div class="flex flex-wrap justify-center space-x-4 space-x-reverse">
-<button class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors active-tab" data-page="home">الرئيسية</button>
-<button class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-page="teams">الفرق</button>
-<button class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-page="players">اللاعبين</button>
-<button class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-page="matches">المباريات</button>
-<button class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-page="groups">المجموعات</button>
-<button class="px-4 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors" data-page="news">الأخبار</button>
-</div>
-</nav>
-</div>
-<div class="h-1 w-full" style="background:linear-gradient(90deg, var(--primary), var(--accent), var(--primary-2));"></div>
-</header>
-<main class="container mx-auto px-4 py-8">
-<section class="page-section active" id="home-page">
-<div class="hero-bg rounded-2xl p-8 md:p-12 text-white mb-12">
-<div class="max-w-3xl mx-auto text-center">
-<h2 class="text-4xl md:text-5xl font-bold mb-6">بطولة كأس منصور بن زايد 2026</h2>
-<p class="text-xl mb-8 opacity-90">أكبر بطولة عربية تجمع أفضل الأندية في منافسة استثنائية على لقب البطولة</p>
-</div>
-</div>
-</section>
-<section class="page-section" id="teams-page">
-<h2 class="text-3xl font-bold text-blue-800 mb-8 text-center">فرق البطولة</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="teams-container"></div>
-</section>
-<section class="page-section" id="players-page">
-<h2 class="text-3xl font-bold text-blue-800 mb-8 text-center">لاعبي البطولة</h2>
-<div class="max-w-4xl mx-auto mb-6 hidden" id="players-filter-bar">
-<div class="bg-white rounded-xl shadow p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-<div class="text-gray-700">
-          عرض لاعبي فريق: <span class="font-bold text-blue-800" id="players-filter-team"></span>
-</div>
-<button class="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-800" id="players-filter-clear" type="button">
-          إلغاء الفلترة
-        </button>
-</div>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="players-container"></div>
-</section>
-<section class="page-section" id="matches-page">
-<h2 class="text-3xl font-bold text-blue-800 mb-8 text-center">المباريات</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="matches-container"></div>
-</section>
-<section class="page-section" id="groups-page">
-<h2 class="text-3xl font-bold text-blue-800 mb-8 text-center">المجموعات</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="groups-container"></div>
-</section>
-<section class="page-section" id="news-page">
-<h2 class="text-3xl font-bold text-blue-800 mb-8 text-center">الأخبار</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="news-container"></div>
-</section>
-</main>
-<footer class="bg-gray-800 text-white mt-12">
-<div class="container mx-auto px-4 py-8 text-center">
-<p class="text-gray-400">© 2026 جميع الحقوق محفوظة - بطولة كأس منصور بن زايد</p>
-</div>
-</footer>
 <script>
-  // ✅ هذا هو الـ Published ID الصحيح من رابط pubhtml
+  // ✅ ضع هنا Published ID الصحيح من رابط Google Sheets (pubhtml)
   const SHEET_PUB_ID = "2PACX-1vRpxvg9aczrDgqw9lKm-Axq_IHzRHrB5YGYk4xZvJZBktRE5T_VOWpdu4ds-pRhsA";
 
-  // ✅ الأعمدة: teams/players الاسم في العمود B => index=1
+  // ✅ إعدادات الصفحات (CSV)
   const SHEETS_CONFIG = {
-    teams:   { gid: "624074873",  nameCol: 1, idCol: 0 },
-    players: { gid: "374566661",  nameCol: 1, teamIdCol: 2 },
+    teams:   { gid: "624074873",  nameCol: 0 },  // اسم الفريق (عمود A)
+    players: { gid: "374566661",  nameCol: 0, teamCol: 1 }, // اسم اللاعب A / الفريق B
     matches: { gid: "140432292",  nameCol: 0 },
     groups:  { gid: "77308583",   nameCol: 0 },
     news:    { gid: "1073137346", nameCol: 0 }
-    "draw": { gid: "749664935", displayCol: "team_name", grid: false },
   };
 
   // CSV parser بسيط يدعم الفواصل داخل علامات اقتباس
@@ -135,8 +22,8 @@
       if (ch === '"' && next === '"') { cur += '"'; i++; continue; }
       if (ch === '"') { inQuotes = !inQuotes; continue; }
 
-      if (!inQuotes && (ch === ",")) { row.push(cur); cur = ""; continue; }
-      if (!inQuotes && (ch === "\n" || ch === "\r")) { 
+      if (!inQuotes && ch === ",") { row.push(cur); cur = ""; continue; }
+      if (!inQuotes && (ch === "\n" || ch === "\r")) {
         if (ch === "\r" && next === "\n") i++;
         row.push(cur);
         if (row.some(cell => cell.trim() !== "")) rows.push(row);
@@ -150,39 +37,6 @@
     return rows;
   }
 
-  // Draw mapping (A1..D4 -> team names) loaded from the "draw" sheet
-  let DRAW_MAP = null;
-
-  async function loadDrawMap() {
-    if (DRAW_MAP) return DRAW_MAP;
-    const cfg = SHEETS_CONFIG["draw"];
-    if (!cfg) { DRAW_MAP = {}; return DRAW_MAP; }
-
-    try {
-      const url = `https://docs.google.com/spreadsheets/d/e/${SHEET_PUB_ID}/pub?gid=${cfg.gid}&single=true&output=csv`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const csv = await res.text();
-      const rows = parseCSV(csv);
-
-      const map = {};
-      for (const r of rows) {
-        const code = (r.code || "").trim();
-        const name = (r.team_name || "").trim();
-        const group = (r.group || "").trim();
-        if (code && name) map[code] = { name, group };
-      }
-      DRAW_MAP = map;
-      return DRAW_MAP;
-    } catch (e) {
-      console.error("Failed to load draw map", e);
-      DRAW_MAP = {};
-      return DRAW_MAP;
-    }
-  }
-
-
-  // Escape HTML لتجنب مشاكل الأحرف
   function escapeHtml(str) {
     return String(str ?? "")
       .replace(/&/g, "&amp;")
@@ -192,12 +46,11 @@
       .replace(/'/g, "&#39;");
   }
 
-  // فلترة لاعبي صفحة اللاعبين حسب الفريق المختار
-  let selectedTeamId = "";
+  // ✅ فلترة لاعبي صفحة اللاعبين حسب الفريق
+  let selectedTeam = ""; // اسم الفريق المختار
 
-  // ✅ كليك الفريق (خيار A) — مضمون
-  window.selectTeam = function(name){
-    selectedTeamName = (name || "").trim();
+  window.selectTeam = function(teamName){
+    selectedTeam = (teamName || "").trim();
     showPage("players");
   };
 
@@ -208,28 +61,25 @@
     if (!container) return;
 
     const cards = Array.from(container.querySelectorAll("[data-player-card]"));
-    if (!cards.length) return;
 
-    if (selectedTeamId) {
+    if (selectedTeam) {
       if (bar) bar.classList.remove("hidden");
-      if (teamSpan) teamSpan.textContent = selectedTeamId;
+      if (teamSpan) teamSpan.textContent = selectedTeam;
     } else {
       if (bar) bar.classList.add("hidden");
     }
 
     cards.forEach(card => {
-      const team = (card.dataset.teamId || "").trim();
-      const show = !selectedTeamId || team === selectedTeamId;
-      card.style.display = show ? "" : "none";
+      const team = (card.dataset.team || "").trim();
+      card.style.display = (!selectedTeam || team === selectedTeam) ? "" : "none";
     });
   }
 
   document.addEventListener("click", (e) => {
     const clearBtn = e.target.closest("#players-filter-clear");
     if (clearBtn) {
-      selectedTeamName = "";
+      selectedTeam = "";
       showPage("players");
-      return;
     }
   });
 
@@ -246,41 +96,23 @@
     `;
 
     try {
-      const url = `https://docs.google.com/spreadsheets/d/e/${SHEET_PUB_ID}/pub?gid=${cfg.gid}&single=true&output=csv`;
+      const url = `https://docs.google.com/spreadsheets/d/e/${SHEET_PUB_ID}/pub?gid=${cfg.gid}&single=true&output=csv&cachebust=${Date.now()}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error("HTTP " + res.status);
 
       const csv = await res.text();
       const table = parseCSV(csv);
-      const header = (table[0] || []).map(c => (c || "").trim());
-      const rows = table.slice(1); // skip header
-
-      // Auto-detect team column for players (الفريق / Team)
-      let detectedTeamCol = -1;
-      if (pageId === "players" && header.length) {
-        detectedTeamCol = header.findIndex(h => /^(team|الفريق)$/i.test(h) || /team|فريق/i.test(h));
-      }
-      const teamCol = (pageId === "players")
-        ? (detectedTeamCol >= 0 ? detectedTeamCol : (cfg.teamCol ?? -1))
-        : -1;
+      const rows = table.slice(1); // تجاهل الهيدر
 
       container.innerHTML = "";
-
       let count = 0;
+
       for (const r of rows) {
         const name = (r[cfg.nameCol] || "").trim();
         if (!name) continue;
         count++;
 
-        if (pageId === "players") {
-          const team = teamCol >= 0 ? ((r[teamCol] || "").trim()) : "";
-          container.insertAdjacentHTML("beforeend", `
-            <div data-player-card="1" data-team-id="${escapeHtml(team)}" class="bg-white rounded-xl shadow p-4 text-center hover:shadow-lg transition-shadow">
-              <div class="text-lg font-bold text-blue-800">${escapeHtml(name)}</div>
-              ${team ? `<div class="text-sm text-gray-600 mt-1">${escapeHtml(team)}</div>` : ``}
-            </div>
-          `);
-        } else if (pageId === "teams") {
+        if (pageId === "teams") {
           const safeName = escapeHtml(name);
           container.insertAdjacentHTML("beforeend", `
             <button type="button"
@@ -289,25 +121,37 @@
               <div class="text-lg font-bold text-blue-800">${safeName}</div>
             </button>
           `);
-        } else {
+          continue;
+        }
+
+        if (pageId === "players") {
+          const team = (r[cfg.teamCol] || "").trim();
           container.insertAdjacentHTML("beforeend", `
-            <div class="bg-white rounded-xl shadow p-4 text-center hover:shadow-lg transition-shadow">
+            <div data-player-card="1" data-team="${escapeHtml(team)}"
+              class="bg-white rounded-xl shadow p-4 text-center hover:shadow-lg transition-shadow">
               <div class="text-lg font-bold text-blue-800">${escapeHtml(name)}</div>
+              ${team ? `<div class="text-sm text-gray-600 mt-1">${escapeHtml(team)}</div>` : ``}
             </div>
           `);
+          continue;
         }
+
+        container.insertAdjacentHTML("beforeend", `
+          <div class="bg-white rounded-xl shadow p-4 text-center hover:shadow-lg transition-shadow">
+            <div class="text-lg font-bold text-blue-800">${escapeHtml(name)}</div>
+          </div>
+        `);
       }
 
       if (count === 0) {
         container.innerHTML = `<div class="col-span-full text-center py-10 text-gray-600">لا توجد بيانات لعرضها</div>`;
       }
 
-      // Apply players filter after loading players
       if (pageId === "players") applyPlayersFilter();
 
     } catch (e) {
-      container.innerHTML = `<div class="col-span-full text-center py-10 text-red-600">فشل تحميل البيانات</div>`;
       console.error(e);
+      container.innerHTML = `<div class="col-span-full text-center py-10 text-red-600">فشل تحميل البيانات (تأكد أن الشيت منشور للويب)</div>`;
     }
   }
 
@@ -330,79 +174,3 @@
 
   document.addEventListener("DOMContentLoaded", () => showPage("home"));
 </script>
-
-<script>
-/* === Mansour Cup: Google Sheets binding (patched) === */
-const SHEET_PUB_ID = "2PACX-1vTxlAw9iO9hZu5eCbnxohA2Efxgf-a-a8l-xidzs_8ShFVcF5Z8Hb5wJRqJxV564ELWiXskpfyNkveP";
-const SHEETS_CONFIG = {
-  teams:   { gid: "624074873",  nameCol: 0 },
-  players: { gid: "374566661",  nameCol: 0 },
-  matches: { gid: "140432292",  nameCol: 0 },
-  groups:  { gid: "77308583",   nameCol: 0 },
-  news:    { gid: "1073137346", nameCol: 0 },
-  // archive: { gid: "PUT_GID_HERE", nameCol: 0 },
-};
-
-function _gvizToJson(text){
-  const start = text.indexOf('{');
-  const end = text.lastIndexOf('}');
-  if(start === -1 || end === -1) throw new Error("Bad gviz response");
-  return JSON.parse(text.substring(start, end+2));
-}
-
-async function loadPageData(pageId){
-  const cfg = SHEETS_CONFIG[pageId];
-  const container = document.getElementById(`${pageId}-container`);
-  if(!cfg || !container) return;
-
-  container.innerHTML = `<div class="text-center py-8 text-gray-600">جاري التحميل...</div>`;
-
-  const url = `https://docs.google.com/spreadsheets/d/e/${SHEET_PUB_ID}/gviz/tq?gid=${cfg.gid}&tqx=out:json&cachebust=${Date.now()}`;
-  try {
-    const res = await fetch(url);
-    const text = await res.text();
-    const json = _gvizToJson(text);
-    const rows = (json.table && json.table.rows) ? json.table.rows : [];
-    container.innerHTML = "";
-    let count = 0;
-
-    for(const r of rows){
-      const cells = (r.c || []).map(c => c ? (c.v ?? "") : "");
-      const val = (cells[cfg.nameCol] ?? "").toString().trim();
-      if(!val) continue;
-      count++;
-      container.innerHTML += `
-        <div class="bg-white rounded-xl shadow p-4 text-center">
-          <div class="text-lg font-bold text-blue-800">${val}</div>
-        </div>
-      `;
-    }
-    if(count === 0){
-      container.innerHTML = `<div class="text-center py-8 text-gray-600">لا توجد بيانات ظاهرة (تأكد أن أول عمود به أسماء وأن الورقة منشورة للويب)</div>`;
-    }
-  } catch(e) {
-    console.error(e);
-    container.innerHTML = `<div class="text-center py-8 text-red-600">فشل تحميل البيانات (تأكد من Publish to web)</div>`;
-  }
-}
-
-function showPage(pageId){
-  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
-  const target = document.getElementById(`${pageId}-page`);
-  if(target) target.classList.add('active');
-
-  document.querySelectorAll('nav button[data-page]').forEach(btn=>{
-    btn.classList.remove('active-tab');
-    if(btn.getAttribute('data-page')===pageId) btn.classList.add('active-tab');
-  });
-
-  if(SHEETS_CONFIG[pageId]) loadPageData(pageId);
-}
-
-document.addEventListener('DOMContentLoaded', ()=> {
-  try { showPage('home'); } catch(e){ console.error(e); }
-});
-</script>
-
-</body>
-</html>
